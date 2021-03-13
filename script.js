@@ -86,10 +86,33 @@ const calcDisplayBalance = function(movements) {
   const balance = movements.reduce(function(acc, mov, idx) {
     return acc + mov;
   }, 0);
-  labelBalance.textContent = `${balance} EUR`;
+  labelBalance.textContent = `${balance}€`;
 };
 
 calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function(movements) {
+  const incomes = movements.filter(mov => mov > 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumIn.textContent = `${incomes}€`;
+  console.log(incomes);
+
+  const out = function(movements) {
+    const outcomes = movements.filter(mov => mov < 0)
+      .reduce((acc, cur) => acc + cur, 0);
+    labelSumOut.textContent = `${Math.abs(outcomes)}€`;
+  };
+
+  const interests = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 1.2 / 100)
+    .filter(interest => interest > 1)
+    .reduce((acc, cur) => acc + cur);
+
+  labelSumInterest.textContent = `${interests}€`;
+};
+
+calcDisplaySummary(account1.movements);
 
 const createUsernames = function(accs) {
   accs.forEach(function(acc) {
@@ -158,13 +181,13 @@ TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
 
 GOOD LUCK 😀
 */
-
-const calcAverageHumanAge = function(ages) {
-  // 1. Calculate the dog age in human years using the following formula: if the dog is <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old, humanAge = 16 + dogAge * 4.
-  const humanAges = ages.map(age => age <= 2 ? age * 2 : 16 + age * 4);
-  return humanAges.filter(age => age >=18).reduce((acc, curr, idx, arr) => acc +curr/arr.length, 0);
-};
-
-console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
-console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
-
+//
+// const calcAverageHumanAge = function(ages) {
+//   // 1. Calculate the dog age in human years using the following formula: if the dog is <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old, humanAge = 16 + dogAge * 4.
+//   const humanAges = ages.map(age => age <= 2 ? age * 2 : 16 + age * 4);
+//   return humanAges.filter(age => age >=18).reduce((acc, curr, idx, arr) => acc +curr/arr.length, 0);
+// };
+//
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+//
